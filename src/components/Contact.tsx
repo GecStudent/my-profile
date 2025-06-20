@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ const Contact = () => {
     phone: '',
     message: ''
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -59,7 +63,23 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const resetForm = () => {
+    setFormData({
+      fullName: '',
+      email: '',
+      phone: '',
+      message: ''
+    });
+    setErrors({
+      fullName: '',
+      email: '',
+      phone: '',
+      message: ''
+    });
+    setSubmitStatus('idle');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate all fields before submission
@@ -77,8 +97,33 @@ const Contact = () => {
       return;
     }
 
-    console.log('Form submitted:', formData);
-    // Handle form submission
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const templateParams = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        time: new Date().toLocaleString(), // or any format you want
+        message: formData.message
+      };
+
+      await emailjs.send(
+        import.meta.env.VITE_SERVICE_ID,
+        import.meta.env.VITE_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_USER_ID
+      );
+
+      setSubmitStatus('success');
+      resetForm();
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -178,7 +223,7 @@ const Contact = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   maxLength={15}
-                  pattern="[0-9+\s-]{10,15}"
+                  pattern="[0-9+\-\s]{10,15}"
                   required
                   autoComplete="off"
                   className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-coral focus:outline-none transition-colors"
@@ -206,13 +251,35 @@ const Contact = () => {
                   {formData.message.length}/1000
                 </p>
               </div>
-              <button
-                type="submit"
-                className="bg-coral text-white px-8 py-3 rounded-lg font-medium hover:bg-coral/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={Object.values(errors).some(error => error !== '') || Object.values(formData).some(value => value === '')}
-              >
-                Submit
-              </button>
+              <div className="flex flex-col gap-4">
+                <button
+                  type="submit"
+                  className="bg-coral text-white px-8 py-3 rounded-lg font-medium hover:bg-coral/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  disabled={isSubmitting || Object.values(errors).some(error => error !== '') || Object.values(formData).some(value => value === '')}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </>
+                  ) : 'Submit'}
+                </button>
+
+                {submitStatus === 'success' && (
+                  <div className="text-green-400 text-sm text-center">
+                    Message sent successfully! We'll get back to you soon.
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="text-red-400 text-sm text-center">
+                    Failed to send message. Please try again later.
+                  </div>
+                )}
+              </div>
             </form>
           </div>
         </div>

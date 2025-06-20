@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Hero = () => {
@@ -30,10 +29,14 @@ const Hero = () => {
           </p>
 
           {/* CTA Button */}
-          <button className="group relative bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-purple-900/25 hover:shadow-xl hover:shadow-purple-900/40 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
+          <a
+            href="/cv.pdf"
+            download
+            className="group relative bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-purple-900/25 hover:shadow-xl hover:shadow-purple-900/40 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 inline-block"
+          >
             <span className="relative z-10">Download CV</span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
+          </a>
         </div>
       </div>
     </section>
