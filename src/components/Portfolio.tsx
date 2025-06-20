@@ -7,24 +7,26 @@ const Portfolio = () => {
       category: 'CLOUD NATIVE',
       tags: 'AWS | Kubernetes | Terraform',
       description: 'Designed full AWS infrastructure using Terraform (IaC) and Kubernetes (EKS/k3s). Implemented CI/CD pipelines using GitHub Actions for Node.js backend & React frontend. Integrated monitoring with Prometheus, Grafana, and centralized logging with ELK Stack.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop',
+      image: 'image1.png',
       date: '2024',
       client: 'Personal Project',
       tech: 'AWS, Kubernetes, Terraform, Node.js',
       type: 'Cloud Infrastructure',
-      url: 'https://github.com/GecStudent'
+      url: 'https://github.com/GecStudent/CloudMetrics---SaaS-Monitoring-Platform',
+      projecturl: 'https://cloudmetrics.nikheelkumbhani.com',
     },
     {
       title: 'Auction Hub - Real-Time Platform',
       category: 'FULL STACK',
       tags: 'React.js | Node.js | MongoDB',
       description: 'Developed full-stack application with React.js frontend and Node.js + Express.js backend. Managed user authentication, real-time bidding system, and auction management. Integrated MongoDB with live bid updates and countdown timers.',
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500&h=300&fit=crop',
+      image: 'image2.png',
       date: '2024',
       client: 'Academic Project',
       tech: 'React, Node.js, MongoDB, Express',
       type: 'Web Application',
-      url: 'https://github.com/GecStudent'
+      url: 'https://github.com/GecStudent/Auction-Hub---Real-Time-Platform',
+      projecturl: 'https://auctionhub.nikheelkumbhani.com',
     }
   ];
 
@@ -57,7 +59,7 @@ const Portfolio = () => {
                     Source Code
                   </a>
                   <a 
-                    href={project.url}
+                    href={project.projecturl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-coral text-white px-3 py-1.5 md:px-6 md:py-2 rounded-lg font-medium text-sm md:text-base"

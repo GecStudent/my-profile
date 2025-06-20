@@ -27,7 +27,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <div className="text-xl font-bold text-white">
-            <img src="/public/logo/logo.png" alt="Logo" className="h-12 w-auto inline-block" />
+            <img src="/public/favicon.ico" alt="Logo" className="h-12 w-auto inline-block" />
           </div>
 
           {/* Desktop Navigation */}
